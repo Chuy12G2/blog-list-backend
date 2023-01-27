@@ -4,40 +4,10 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
+const Blog = require('./models/blog')
 
 mongoose.set('strictQuery', false)
 
-const blogSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-    minLength: 3
-  },
-  author: {
-    type: String,
-    required: true,
-    minLength: 3
-  },
-  url: {
-    type: String,
-    required: true,
-    minLength: 3
-  },
-  likes: {
-    type: Number,
-    required: true
-  }
-})
-
-blogSchema.set('toJSON', {
-  transform: (document, returnedObject) =>  {
-      returnedObject.id = returnedObject._id.toString()
-      delete returnedObject._id
-      delete returnedObject.__v
-    }
-})
-
-const Blog = mongoose.model('Blog', blogSchema)
 
 const mongoUrl = process.env.MONGODB_URI
 

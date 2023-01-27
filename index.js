@@ -8,10 +8,25 @@ const mongoose = require('mongoose')
 mongoose.set('strictQuery', false)
 
 const blogSchema = new mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number
+  title: {
+    type: String,
+    required: true,
+    minLength: 3
+  },
+  author: {
+    type: String,
+    required: true,
+    minLength: 3
+  },
+  url: {
+    type: String,
+    required: true,
+    minLength: 3
+  },
+  likes: {
+    type: Number,
+    required: true
+  }
 })
 
 blogSchema.set('toJSON', {
@@ -57,6 +72,7 @@ app.post('/api/blogs', (request, response) => {
     .then(result => {
       response.status(201).json(result)
     })
+    .catch(err => console.log(err.message))
 })
 
 const PORT = process.env.PORT   

@@ -4,6 +4,8 @@ const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
 
+mongoose.set('strictQuery', false)
+
 const blogSchema = new mongoose.Schema({
   title: String,
   author: String,
@@ -11,13 +13,32 @@ const blogSchema = new mongoose.Schema({
   likes: Number
 })
 
+blogSchema.set('toJSON', {
+  transform: (document, returnedObject) =>  {
+      returnedObject.id = returnedObject._id.toString()
+      delete returnedObject._id
+      delete returnedObject.__v
+    }
+})
+
 const Blog = mongoose.model('Blog', blogSchema)
 
-const mongoUrl = 'mongodb://localhost/bloglist'
+const mongoUrl = `mongodb+srv://blog:blogdb@cluster0.clxbv4j.mongodb.net/blogApp?retryWrites=true&w=majority`
+
 mongoose.connect(mongoUrl)
+  .then(result => {
+    console.log('connected to database')
+  })
+  .catch(err => {
+    console.log(err)
+  })
 
 app.use(cors())
 app.use(express.json())
+
+app.get('/', (request, response) => {
+    response.send('Home page')
+})
 
 app.get('/api/blogs', (request, response) => {
   Blog

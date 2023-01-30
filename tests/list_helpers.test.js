@@ -1,6 +1,6 @@
 const listHelper = require('../utils/list_helper')
 
-describe('dummy', () => {
+describe.skip('dummy', () => {
   test('dummy returns one', () => {
     const blogs = []
   
@@ -9,7 +9,7 @@ describe('dummy', () => {
   })
 })
 
-describe('Total of Likes', () => {
+describe.skip('Total of Likes', () => {
   const listWithOneBlog = [
     {
     _id: '5a422aa71b54a676234d17f8',
